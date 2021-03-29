@@ -20,4 +20,4 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore src/Plugins/Nop.Plugin.Payments.Manual/Nop.Plugin.Payments.Manual.csproj
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build src/Plugins/Nop.Plugin.Payments.Manual/Nop.Plugin.Payments.Manual.csproj --no-restore
