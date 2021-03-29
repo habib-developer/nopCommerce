@@ -1,0 +1,50 @@
+name: .NET
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore src/Plugins/Nop.Plugin.Payments.Manual/Nop.Plugin.Payments.Manual.csproj
+
+    - name: Build
+      run: dotnet build src/Plugins/Nop.Plugin.Payments.Manual/Nop.Plugin.Payments.Manual.csproj --no-restore --output ./MyPluginRelease/
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+       # Artifact name
+       name: Smart_OTO_3.9
+       # A file, directory or wildcard pattern that describes what to upload
+       path: ./MyPluginRelease/
+       # The desired behavior if no files are found using the provided path.
+       retention-days: 90
+       
+    - name: Git Release
+      uses: anton-yurchenko/git-release@v3.4.4
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+       # Release Assets
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+        draft: false
+        prerelease: false
