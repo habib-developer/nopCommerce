@@ -13,11 +13,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore src/Plugins/Nop.Plugin.Payments.Manual/Nop.Plugin.Payments.Manual.csproj
+
     - name: Build
-      run: dotnet build src/Plugins/Nop.Plugin.Payments.Manual/Nop.Plugin.Payments.Manual.csproj --no-restore
+      run: dotnet build src/Plugins/Nop.Plugin.Payments.Manual/Nop.Plugin.Payments.Manual.csproj --no-restore --output ./MyPluginRelease/
+
+    - name: action-zip
+      uses: montudor/action-zip@v0.1.1
+      with: 
+       args: zip -qq -r dir.zip ./MyPluginRelease/
+      
