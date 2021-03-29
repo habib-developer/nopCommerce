@@ -24,8 +24,13 @@ jobs:
     - name: Build
       run: dotnet build src/Plugins/Nop.Plugin.Payments.Manual/Nop.Plugin.Payments.Manual.csproj --no-restore --output ./MyPluginRelease/
 
-    - name: action-zip
-      uses: montudor/action-zip@v0.1.1
-      with: 
-       args: zip -qq -r dir.zip ./MyPluginRelease/
+    #- name: action-zip
+    #  uses: montudor/action-zip@v0.1.1
+    #  with: 
+    #   args: zip -qq -r dir.zip ./MyPluginRelease/
+
+    - name: Zip Release
+      uses: TheDoctor0/zip-release@0.4.1
+      with:
+        path: ./MyPluginRelease/
       
