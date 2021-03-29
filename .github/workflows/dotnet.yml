@@ -24,13 +24,13 @@ jobs:
     - name: Build
       run: dotnet build src/Plugins/Nop.Plugin.Payments.Manual/Nop.Plugin.Payments.Manual.csproj --no-restore --output ./MyPluginRelease/
 
-    #- name: action-zip
-    #  uses: montudor/action-zip@v0.1.1
-    #  with: 
-    #   args: zip -qq -r dir.zip ./MyPluginRelease/
-
-    - name: Zip Release
-      uses: TheDoctor0/zip-release@0.4.1
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.2
       with:
-        path: ./MyPluginRelease/
+       # Artifact name
+       name: Artifact1
+       # A file, directory or wildcard pattern that describes what to upload
+       path: ./MyPluginRelease/
+       # The desired behavior if no files are found using the provided path.
+       retention-days: 90
       
